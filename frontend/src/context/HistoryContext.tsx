@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import { AnalysisRecord } from '../types';
 
 interface HistoryContextValue {
@@ -21,7 +21,7 @@ export const HistoryProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return Promise.resolve();
   }, []);
 
-  const deleteRecord = useCallback(async (id: number) => {
+  const deleteRecord = useCallback(async (_id: number) => {
     // No-op since we removed history functionality
     return Promise.resolve();
   }, []);

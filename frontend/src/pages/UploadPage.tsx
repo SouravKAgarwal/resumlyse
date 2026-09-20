@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import { FileUpload } from '../components/FileUpload';
 import { JobDescription } from '../components/JobDescription';
@@ -101,7 +101,7 @@ export const UploadPage: React.FC = () => {
 
         {error && (
           <div className="p-3.5 sm:p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-lg text-xs sm:text-sm flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
