@@ -1,0 +1,21 @@
+# Virtual environments
+.venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Database
+*.db
+
+# Temp uploads
+backend/temp_uploads/
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
