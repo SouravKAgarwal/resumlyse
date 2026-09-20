@@ -32,7 +32,6 @@ export const analyzeResume = async (
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-  // Return the analysis directly - no history storage
   return {
     id: response.data.id,
     filename: response.data.filename,

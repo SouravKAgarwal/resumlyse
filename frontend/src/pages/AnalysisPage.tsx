@@ -25,10 +25,10 @@ export const AnalysisPage: React.FC = () => {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [filename, setFilename] = useState<string>("");
 
-  // Check if we have analysis data in location state (from UploadPage)
+  // Get analysis data from location state (passed from UploadPage)
   const analysisDataFromState =
     (location.state as {
-      analysisData?: { id: number; filename: string; analysis: AnalysisResult };
+      analysisData?: { filename: string; analysis: AnalysisResult };
     }) || {};
 
   useEffect(() => {
@@ -40,9 +40,9 @@ export const AnalysisPage: React.FC = () => {
       return;
     }
 
-    // No analysis data available in state (stateless setup)
+    // No data available in stateless mode
     setError(
-      "Could not retrieve this document analysis. Analysis history is not available in this stateless deployment.",
+      "No analysis data available. Please upload a resume to see analysis results.",
     );
     setIsLoading(false);
   }, [analysisDataFromState]);
@@ -135,7 +135,10 @@ export const AnalysisPage: React.FC = () => {
         </div>
 
         <div className="w-full sm:w-auto shrink-0 flex items-center justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
-          <ExportButton filename={filename} analysis={result} />
+          <ExportButton
+            filename={filename}
+            analysis={result}
+          />
         </div>
       </div>
 

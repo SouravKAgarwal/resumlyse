@@ -1,11 +1,10 @@
 from pydantic import BaseModel
-from typing import Optional
 
 
 class KeywordMatch(BaseModel):
     keyword: str
     found: bool
-    context: Optional[str] = None
+    context: str | None = None
 
 
 class SectionPresence(BaseModel):
@@ -13,7 +12,7 @@ class SectionPresence(BaseModel):
     present: bool
     quality_score: int = 0
     feedback: str
-    suggested_content: Optional[str] = None
+    suggested_content: str | None = None
 
 
 class CategoryScore(BaseModel):

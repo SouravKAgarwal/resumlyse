@@ -5,7 +5,7 @@ from pathlib import Path
 # Configure structured logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
@@ -29,6 +29,7 @@ app.add_middleware(
 
 app.include_router(analyze.router)
 app.include_router(export.router)
+
 
 @app.get("/")
 def root():

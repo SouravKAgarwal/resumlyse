@@ -7,7 +7,6 @@ import {
   Lock,
   Briefcase,
   FileCheck2,
-  Database,
   EyeOff,
   FileText,
   AlertTriangle,
@@ -206,23 +205,23 @@ export const LegalModal: React.FC<LegalModalProps> = ({
                 </p>
               </div>
 
-              {/* Privacy Item 2: Local Database Retention & Sovereignty */}
+              {/* Privacy Item 2: Stateless Processing & Privacy */}
               <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
                 <div className="flex items-center space-x-2 text-stone-900">
-                  <Database className="w-4 h-4 text-stone-700" />
+                  <EyeOff className="w-4 h-4 text-stone-700" />
                   <h3 className="font-serif font-semibold text-sm">
-                    2. Local Storage & Deletion Rights
+                    2. No Data Retention Policy
                   </h3>
                 </div>
                 <p className="text-xs text-stone-600 leading-relaxed">
-                  Your evaluation history is preserved in your local SQLite database instance so that you can compare versions over time. You retain absolute control over your records: you can permanently delete individual analyses at any time via the <strong>History</strong> drawer.
+                  resumlyse operates in a completely stateless manner - no analysis data, resume content, or personal information is stored on our servers or in any database. Each analysis is processed in real-time and results are only available during your current browser session. Refreshing the page or navigating away will clear all analysis data.
                 </p>
               </div>
 
               {/* Privacy Item 3: Zero Commercial Data Monetization */}
               <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
                 <div className="flex items-center space-x-2 text-stone-900">
-                  <EyeOff className="w-4 h-4 text-stone-700" />
+                  <ShieldCheck className="w-4 h-4 text-stone-700" />
                   <h3 className="font-serif font-semibold text-sm">
                     3. Zero Commercial Monetization or Third-Party Sale
                   </h3>
@@ -235,13 +234,13 @@ export const LegalModal: React.FC<LegalModalProps> = ({
               {/* Privacy Item 4: Document Format & Upload Boundaries */}
               <div className="p-4 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
                 <div className="flex items-center space-x-2 text-stone-900">
-                  <Lock className="w-4 h-4 text-stone-700" />
+                  <EyeOff className="w-4 h-4 text-stone-700" />
                   <h3 className="font-serif font-semibold text-sm">
-                    4. Security Constraints & Boundaries
+                    4. Privacy-First File Handling
                   </h3>
                 </div>
                 <p className="text-xs text-stone-600 leading-relaxed">
-                  The platform enforces strict file extension validation (.pdf, .docx, .txt, .rtf) and a 10MB file size ceiling to safeguard system integrity. We do not collect credit cards, government identification, or passwords.
+                  All file processing occurs client-side in your browser whenever possible. When server-side processing is required for certain document formats, files are processed immediately and discarded permanently after analysis completion. We do not retain any uploaded documents or extracted content beyond the immediate processing window.
                 </p>
               </div>
             </div>
