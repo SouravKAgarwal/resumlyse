@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
-from pydantic import BaseModel
+
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
 # Load .env from the backend directory
 _backend_dir = Path(__file__).parent

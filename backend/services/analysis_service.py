@@ -4,17 +4,14 @@ import shutil
 
 from analyzers.openai_analyzer import OpenAIAnalyzer
 from config import settings
-from database.models import ResumeAnalysis
 from fastapi import UploadFile
 from parsers.router import get_parser
 from schemas.requests import AnalyzeResponse
-from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
 class AnalysisService:
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self):
         self.analyzer = OpenAIAnalyzer()
 
     def process_upload(self, file: UploadFile, job_description: str = None) -> AnalyzeResponse:

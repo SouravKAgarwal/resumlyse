@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 import { FileUpload } from '../components/FileUpload';
 import { JobDescription } from '../components/JobDescription';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { analyzeResume } from '../api/client';
-import { useHistory } from '../context/HistoryContext';
 import { useDialog } from '../context/DialogContext';
 
 export const UploadPage: React.FC = () => {
@@ -16,7 +15,6 @@ export const UploadPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { refreshHistory } = useHistory();
   const { showAlert } = useDialog();
 
   const handleAnalyze = async () => {
@@ -33,9 +31,8 @@ export const UploadPage: React.FC = () => {
         file,
         jdEnabled && jobDescription ? jobDescription : undefined
       );
-      await refreshHistory();
       // Navigate to the result page with the analysis data in state
-      navigate(`/analysis/${data.id}`, { state: { analysisData: data } });
+      navigate('/analysis', { state: { analysisData: data } });
     } catch (err: any) {
       console.error('Analysis failed:', err);
       const msg =

@@ -5,21 +5,18 @@ import { useDialog } from '../context/DialogContext';
 import { AnalysisResult } from '../types';
 
 interface ExportButtonProps {
-  analysisId?: number;
   filename: string;
-  analysis?: AnalysisResult;
+  analysis: AnalysisResult;
 }
 
-export const ExportButton: React.FC<ExportButtonProps> = ({ analysisId, filename, analysis }) => {
+export const ExportButton: React.FC<ExportButtonProps> = ({ filename, analysis }) => {
   const [isExporting, setIsExporting] = useState(false);
   const { showAlert } = useDialog();
 
   const handleExport = async () => {
     setIsExporting(true);
     try {
-      const blob = analysis
-        ? await exportPDF({ filename, analysis })
-        : await exportPDF(analysisId!);
+      const blob = await exportPDF({ filename, analysis });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

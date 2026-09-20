@@ -1,30 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
-import { FileText, BarChart2, CheckCircle2, AlertCircle, ArrowLeft, Plus, Loader2 } from 'lucide-react';
-import { ScoreCard } from '../components/ScoreCard';
-import { ScoreBreakdown } from '../components/ScoreBreakdown';
-import { SectionAnalysis } from '../components/SectionAnalysis';
-import { KeywordMatch } from '../components/KeywordMatch';
-import { ExportButton } from '../components/ExportButton';
-import { AnalysisResult } from '../types';
-import { getAnalysis } from '../api/client';
-import { useHistory } from '../context/HistoryContext';
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import {
+  FileText,
+  BarChart2,
+  CheckCircle2,
+  AlertCircle,
+  ArrowLeft,
+  Plus,
+  Loader2,
+} from "lucide-react";
+import { ScoreCard } from "../components/ScoreCard";
+import { ScoreBreakdown } from "../components/ScoreBreakdown";
+import { SectionAnalysis } from "../components/SectionAnalysis";
+import { KeywordMatch } from "../components/KeywordMatch";
+import { ExportButton } from "../components/ExportButton";
+import { AnalysisResult } from "../types";
 
 export const AnalysisPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { history } = useHistory();
   const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [filename, setFilename] = useState<string>('');
+  const [filename, setFilename] = useState<string>("");
 
-  const numericId = id ? Number(id) : null;
-
-  // Check if we have analysis data in location state (from UploadPage)
-  const analysisDataFromState = location.state as { analysisData?: { id: number; filename: string; analysis: AnalysisResult } } || {};
+  // Get analysis data from location state (passed from UploadPage)
+  const analysisDataFromState =
+    (location.state as {
+      analysisData?: { filename: string; analysis: AnalysisResult };
+    }) || {};
 
   useEffect(() => {
     // If we have data from state, use it directly
@@ -35,36 +40,20 @@ export const AnalysisPage: React.FC = () => {
       return;
     }
 
-    // Otherwise, fall back to trying to fetch from storage (will fail in our stateless setup)
-    if (!numericId || isNaN(numericId)) {
-      setError('Invalid analysis record identifier.');
-      setIsLoading(false);
-      return;
-    }
-
-    const fetchResult = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const data = await getAnalysis(numericId);
-        setResult(data.analysis);
-        setFilename(data.filename);
-      } catch (err: any) {
-        console.error('Failed to load analysis:', err);
-        setError('Could not retrieve this document analysis. Analysis history is not available in this stateless deployment.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchResult();
-  }, [numericId, analysisDataFromState]);
+    // No data available in stateless mode
+    setError(
+      "No analysis data available. Please upload a resume to see analysis results.",
+    );
+    setIsLoading(false);
+  }, [analysisDataFromState]);
 
   if (isLoading) {
     return (
       <div className="max-w-6xl mx-auto px-4 py-20 flex flex-col items-center justify-center space-y-3">
         <Loader2 className="w-8 h-8 text-stone-700 animate-spin" />
-        <p className="text-xs text-stone-500 font-sans">Loading document analysis...</p>
+        <p className="text-xs text-stone-500 font-sans">
+          Loading document analysis...
+        </p>
       </div>
     );
   }
@@ -75,8 +64,12 @@ export const AnalysisPage: React.FC = () => {
         <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-700 flex items-center justify-center mx-auto border border-rose-200">
           <AlertCircle className="w-6 h-6" />
         </div>
-        <h2 className="text-lg font-serif font-semibold text-stone-900">Analysis Not Found</h2>
-        <p className="text-xs text-stone-500 leading-relaxed font-sans">{error || 'This analysis could not be displayed.'}</p>
+        <h2 className="text-lg font-serif font-semibold text-stone-900">
+          Analysis Not Found
+        </h2>
+        <p className="text-xs text-stone-500 leading-relaxed font-sans">
+          {error || "This analysis could not be displayed."}
+        </p>
         <div className="pt-2 flex justify-center space-x-3">
           <Link
             to="/upload"
@@ -97,7 +90,9 @@ export const AnalysisPage: React.FC = () => {
 
   // Quick KPI numbers
   const presentSectionsCount = result.sections.filter((s) => s.present).length;
-  const foundKeywordsCount = result.keyword_matches.filter((k) => k.found).length;
+  const foundKeywordsCount = result.keyword_matches.filter(
+    (k) => k.found,
+  ).length;
   const totalKeywordsCount = result.keyword_matches.length;
 
   return (
@@ -105,7 +100,7 @@ export const AnalysisPage: React.FC = () => {
       {/* Top action bar */}
       <div className="flex items-center justify-between gap-2">
         <button
-          onClick={() => navigate('/upload')}
+          onClick={() => navigate("/upload")}
           className="inline-flex items-center text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors py-1"
         >
           <ArrowLeft className="w-3.5 h-3.5 mr-1 shrink-0" />
@@ -130,33 +125,20 @@ export const AnalysisPage: React.FC = () => {
             <FileText className="w-4 h-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="text-sm sm:text-base font-serif font-semibold text-stone-900 truncate" title={filename}>
+            <h2
+              className="text-sm sm:text-base font-serif font-semibold text-stone-900 truncate"
+              title={filename}
+            >
               {filename}
             </h2>
-            <p className="text-[11px] sm:text-xs text-stone-400 font-sans flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
-              <span>
-                {currentRecord
-                  ? `Evaluated on ${new Date(currentRecord.created_at).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}`
-                  : analysisDataFromState.analysisData
-                  ? 'Just Analyzed'
-                  : 'Benchmark Report'}
-              </span>
-              {((currentRecord && currentRecord.job_description) ||
-                (analysisDataFromState.analysisData &&
-                  /* We don't have job description in the analysis result from state,
-                   but in a real implementation we might want to pass it */ false)) && (
-                <span className="font-medium text-stone-600">• Role-specific Benchmark</span>
-              )}
-            </p>
           </div>
         </div>
 
         <div className="w-full sm:w-auto shrink-0 flex items-center justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
-          {numericId && <ExportButton analysisId={numericId} filename={filename} analysis={result} />}
+          <ExportButton
+            filename={filename}
+            analysis={result}
+          />
         </div>
       </div>
 
@@ -207,7 +189,7 @@ export const AnalysisPage: React.FC = () => {
               <span className="text-sm sm:text-base font-serif font-bold text-stone-900 truncate block">
                 {totalKeywordsCount > 0
                   ? `${Math.round((foundKeywordsCount / totalKeywordsCount) * 100)}% Match`
-                  : 'General'}
+                  : "General"}
               </span>
             </div>
 
@@ -250,7 +232,9 @@ export const AnalysisPage: React.FC = () => {
                     key={`str-${idx}`}
                     className="flex items-start text-xs sm:text-sm text-stone-700 bg-stone-50/70 p-2.5 sm:p-3 rounded-lg border border-stone-200/60"
                   >
-                    <span className="text-stone-400 mr-2 sm:mr-2.5 shrink-0">—</span>
+                    <span className="text-stone-400 mr-2 sm:mr-2.5 shrink-0">
+                      —
+                    </span>
                     <span className="leading-relaxed font-sans">{str}</span>
                   </div>
                 ))}

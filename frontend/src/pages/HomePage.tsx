@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, FileCheck, Target, Layers, Clock, ChevronRight } from 'lucide-react';
-import { useHistory } from '../context/HistoryContext';
+import { ArrowRight, FileCheck, Target, Layers } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const { history } = useHistory();
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-14 space-y-10 sm:space-y-16 animate-in fade-in duration-200">
@@ -67,57 +65,6 @@ export const HomePage: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Recent Analyses Section (if available) */}
-      {history.length > 0 && (
-        <div className="bg-white rounded-xl border border-stone-200 shadow-xs p-4 sm:p-6 space-y-3 sm:space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-stone-100">
-            <div className="flex items-center space-x-2">
-              <Clock className="w-4 h-4 text-stone-500" />
-              <h2 className="text-sm font-serif font-semibold text-stone-900 tracking-tight">
-                Recent Document Analyses
-              </h2>
-            </div>
-            <Link
-              to="/upload"
-              className="text-xs font-medium text-stone-600 hover:text-stone-900 transition-colors underline-offset-2 hover:underline"
-            >
-              Analyze New Document
-            </Link>
-          </div>
-
-          <div className="divide-y divide-stone-100">
-            {history.slice(0, 5).map((item) => (
-              <Link
-                key={item.id}
-                to={`/analysis/${item.id}`}
-                className="py-3 px-2 flex items-center justify-between hover:bg-stone-50/70 rounded-lg transition-colors group gap-3"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium text-stone-900 group-hover:text-stone-700 truncate" title={item.filename}>
-                    {item.filename}
-                  </p>
-                  <p className="text-[11px] text-stone-400 truncate mt-0.5">
-                    {new Date(item.created_at).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                    {item.job_description && ' • Targeted Role'}
-                  </p>
-                </div>
-
-                <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded bg-stone-100 text-stone-800 border border-stone-200">
-                    {Math.round(item.overall_score)}/100
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-stone-800 transition-colors" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
