@@ -64,7 +64,7 @@ export const LoadingSpinner: React.FC = () => {
         </div>
 
         {/* Dynamic Title and Subtitle */}
-        <div className="text-center min-h-[70px] sm:min-h-[80px] flex flex-col items-center justify-center">
+        <div className="text-center min-h-17.5 sm:min-h-20 flex flex-col items-center justify-center">
           <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200/80 mb-2">
             <Loader2 className="w-3 h-3 text-stone-600 animate-spin" />
             <span className="text-[10px] sm:text-[11px] font-medium text-stone-600 tracking-wide uppercase">

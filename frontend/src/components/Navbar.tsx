@@ -16,7 +16,7 @@ export const Navbar: React.FC = () => {
           to="/"
           className="flex items-center space-x-2 sm:space-x-2.5 text-left group focus:outline-none shrink-0"
         >
-          <ResumlyseLogo className="w-7 h-7 sm:w-8 h-8 transition-transform group-hover:scale-105" />
+          <ResumlyseLogo className="w-7 h-7 sm:w-8 sm:h-8 transition-transform group-hover:scale-105" />
           <span className="font-serif font-semibold text-base sm:text-lg text-stone-900 tracking-tight block">
             resumlyse
           </span>
