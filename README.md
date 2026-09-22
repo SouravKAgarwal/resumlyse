@@ -168,12 +168,14 @@ It audits resume documents against modern parsing standards, optionally cross-re
 
 ## Configuration Reference
 
-The backend configuration is managed via `backend/config.py` using `pydantic-settings` / `python-dotenv`:
+The backend configuration is managed via `backend/config.py` using `pydantic` / `python-dotenv`:
 
 | Variable | Type | Default | Description |
 |---|---|---|---|
 | `OPENAI_API_KEY` | String | `""` | API key for OpenAI or any compatible LLM endpoint. |
-| `TEMP_UPLOAD_DIR` | String | `backend/temp_uploads` | Ephemeral directory for saving incoming documents during parsing before immediate unlinking. |
+| `OPENAI_MODEL` | String | `nvidia/nemotron-3-super-120b-a12b` | Model identifier used for evaluations. |
+| `OPENAI_API_BASE` | String | `https://integrate.api.nvidia.com/v1` | Base URL for LLM API calls. |
+| `TEMP_UPLOAD_DIR` | String | System Temp (`/tmp/resumlyse_uploads`) | Ephemeral directory for saving incoming documents during parsing before immediate unlinking (fully compatible with serverless read-only filesystems). |
 
 ---
 

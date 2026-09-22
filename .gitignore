@@ -10,10 +10,12 @@ __pycache__/
 *.db
 
 # Temp uploads
+temp_uploads/
 backend/temp_uploads/
 
 # Node
 node_modules/
+dist/
 frontend/dist/
 
 # IDE

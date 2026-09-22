@@ -1,4 +1,5 @@
 import os
+import tempfile
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -15,7 +16,10 @@ class Settings(BaseModel):
     OPENAI_API_BASE: str = os.getenv(
         "OPENAI_API_BASE", "https://integrate.api.nvidia.com/v1"
     )
-    TEMP_UPLOAD_DIR: str = str(_backend_dir / "temp_uploads")
+    TEMP_UPLOAD_DIR: str = os.getenv(
+        "TEMP_UPLOAD_DIR",
+        os.path.join(tempfile.gettempdir(), "resumlyse_uploads"),
+    )
 
 
 settings = Settings()

@@ -1,0 +1,12 @@
+{
+  "name": "resumlyse",
+  "private": true,
+  "version": "1.0.0",
+  "description": "AI-Powered ATS Resume Analyzer",
+  "scripts": {
+    "build": "npm run build --prefix frontend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "uvicorn backend.main:app --reload --port 8000",
+    "dev": "vercel dev"
+  }
+}
