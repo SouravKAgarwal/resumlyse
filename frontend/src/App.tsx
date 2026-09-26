@@ -1,14 +1,17 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { DialogProvider } from './context/DialogContext';
+import { ToastProvider } from './context/ToastContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { UploadPage } from './pages/UploadPage';
 import { AnalysisPage } from './pages/AnalysisPage';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
 function AppLayout() {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  useKeyboardShortcuts();
 
   return (
     <div className="min-h-screen bg-[#fbfbfa] text-stone-900 flex flex-col font-sans selection:bg-stone-200">
@@ -36,7 +39,9 @@ function App() {
   return (
     <BrowserRouter>
       <DialogProvider>
+        <ToastProvider>
           <AppLayout />
+        </ToastProvider>
       </DialogProvider>
     </BrowserRouter>
   );

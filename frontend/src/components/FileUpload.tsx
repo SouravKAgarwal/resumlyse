@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { Upload, X, Check } from "lucide-react";
-import { useDialog } from "../context/DialogContext";
+import { useToast } from "../context/ToastContext";
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
@@ -15,7 +15,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const { showAlert } = useDialog();
+  const { toast } = useToast();
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -53,15 +53,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
 
     if (!validTypes.includes(extension)) {
-      showAlert(
-        "Please upload a valid document format (.pdf, .docx, .txt, or .rtf).",
-        "Unsupported File Format",
+      toast(
+        "Please upload a valid format: .pdf, .docx, .txt, or .rtf",
         "warning",
       );
     } else if (file.size > maxSizeInBytes) {
-      showAlert(
-        `File size exceeds the 10MB limit. Please select a smaller file.`,
-        "File Too Large",
+      toast(
+        "File size exceeds the 10MB limit. Please select a smaller file.",
         "warning",
       );
     } else {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
 import { exportPDF } from '../api/client';
 import { useDialog } from '../context/DialogContext';
+import { useToast } from '../context/ToastContext';
 import { AnalysisResult } from '../types';
 
 interface ExportButtonProps {
@@ -12,6 +13,7 @@ interface ExportButtonProps {
 export const ExportButton: React.FC<ExportButtonProps> = ({ filename, analysis }) => {
   const [isExporting, setIsExporting] = useState(false);
   const { showAlert } = useDialog();
+  const { toast } = useToast();
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -25,6 +27,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({ filename, analysis }
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
+      toast('PDF report downloaded successfully', 'success');
     } catch (error) {
       console.error('Export failed:', error);
       showAlert('Failed to export PDF report. Please check server connection and try again.', 'Export Failed', 'error');
@@ -37,7 +40,7 @@ export const ExportButton: React.FC<ExportButtonProps> = ({ filename, analysis }
     <button
       onClick={handleExport}
       disabled={isExporting}
-      className="w-full sm:w-auto inline-flex items-center justify-center px-3.5 py-2 sm:py-1.5 bg-white border border-stone-300 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-xs font-medium rounded-lg transition-colors shadow-2xs disabled:opacity-60 disabled:cursor-not-allowed"
+      className="no-print w-full sm:w-auto inline-flex items-center justify-center px-3.5 py-2 sm:py-1.5 bg-white border border-stone-300 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-xs font-medium rounded-lg transition-colors shadow-2xs disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {isExporting ? (
         <>

@@ -24,15 +24,18 @@ export const Navbar: React.FC = () => {
 
         {/* Right Actions */}
         <div className="flex items-center space-x-1.5 sm:space-x-2.5">
-          {!isUploadPage && (
+        {!isUploadPage && (
             <Link
               to="/upload"
-              className="inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-medium text-stone-900 bg-stone-100 hover:bg-stone-200/80 border border-stone-200 rounded-lg transition-colors shrink-0"
-              title="Upload Document"
+              className="no-print inline-flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs font-medium text-stone-900 bg-stone-100 hover:bg-stone-200/80 border border-stone-200 rounded-lg transition-colors shrink-0"
+              title="Upload Document (Ctrl+U)"
             >
               <Plus className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Upload Document</span>
               <span className="sm:hidden">Upload</span>
+              <kbd className="hidden lg:inline-flex ml-1.5 px-1 py-0.5 text-[9px] font-mono font-medium text-stone-400 bg-stone-50 border border-stone-200 rounded">
+                ⌘U
+              </kbd>
             </Link>
           )}
         </div>
