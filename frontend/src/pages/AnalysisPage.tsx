@@ -8,22 +8,38 @@ import {
   ArrowLeft,
   Plus,
   Loader2,
+  ChevronDown,
+  ChevronUp,
+  Copy,
+  CheckCheck,
 } from "lucide-react";
 import { ScoreCard } from "../components/ScoreCard";
 import { ScoreBreakdown } from "../components/ScoreBreakdown";
 import { SectionAnalysis } from "../components/SectionAnalysis";
 import { KeywordMatch } from "../components/KeywordMatch";
 import { ExportButton } from "../components/ExportButton";
+import { ScoreHistory } from "../components/ScoreHistory";
+import { useToast } from "../context/ToastContext";
 import { AnalysisResult } from "../types";
 
 export const AnalysisPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [filename, setFilename] = useState<string>("");
+
+  // Collapsible section state
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
+  const toggleSection = (key: string) => {
+    setCollapsedSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Copy-all state
+  const [copiedAll, setCopiedAll] = useState(false);
 
   // Get analysis data from location state (passed from UploadPage)
   const analysisDataFromState =
@@ -46,6 +62,17 @@ export const AnalysisPage: React.FC = () => {
     );
     setIsLoading(false);
   }, [analysisDataFromState]);
+
+  const handleCopyAll = () => {
+    if (!result) return;
+    const text = result.critical_improvements
+      .map((item, i) => `${i + 1}. ${item}`)
+      .join("\n");
+    navigator.clipboard.writeText(text);
+    setCopiedAll(true);
+    toast("All action items copied to clipboard", "success");
+    setTimeout(() => setCopiedAll(false), 2000);
+  };
 
   if (isLoading) {
     return (
@@ -98,7 +125,7 @@ export const AnalysisPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-4 sm:space-y-6 animate-in fade-in duration-200">
       {/* Top action bar */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="no-print flex items-center justify-between gap-2">
         <button
           onClick={() => navigate("/upload")}
           className="inline-flex items-center text-xs font-medium text-stone-500 hover:text-stone-900 transition-colors py-1"
@@ -205,74 +232,122 @@ export const AnalysisPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Session Progress (shows only if 2+ analyses this session) */}
+      <ScoreHistory currentScore={Math.round(result.overall_score)} />
+
       {/* Row 2: Dense 2-Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-start">
         {/* Left Column: Category Breakdown & Strengths */}
         <div className="space-y-4 sm:space-y-6">
           <ScoreBreakdown scores={result.category_scores} />
 
-          {/* Identified Strengths */}
+          {/* Identified Strengths — Collapsible */}
           {result.strengths && result.strengths.length > 0 && (
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-stone-200 shadow-xs">
-              <div className="pb-3 mb-3 sm:mb-3.5 border-b border-stone-100 flex items-center justify-between gap-2">
+              <div
+                className="pb-3 mb-3 sm:mb-3.5 border-b border-stone-100 flex items-center justify-between gap-2 cursor-pointer select-none"
+                onClick={() => toggleSection("strengths")}
+              >
                 <div className="flex items-center space-x-2 min-w-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-800 shrink-0" />
                   <h3 className="text-sm sm:text-base font-serif font-semibold text-stone-900 tracking-tight truncate">
                     Identified Resume Strengths
                   </h3>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">
-                  {result.strengths.length} Highlights
-                </span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    {result.strengths.length} Highlights
+                  </span>
+                  {collapsedSections.strengths ? (
+                    <ChevronDown className="w-3.5 h-3.5 text-stone-400" />
+                  ) : (
+                    <ChevronUp className="w-3.5 h-3.5 text-stone-400" />
+                  )}
+                </div>
               </div>
 
-              <div className="space-y-2">
-                {result.strengths.map((str, idx) => (
-                  <div
-                    key={`str-${idx}`}
-                    className="flex items-start text-xs sm:text-sm text-stone-700 bg-stone-50/70 p-2.5 sm:p-3 rounded-lg border border-stone-200/60"
-                  >
-                    <span className="text-stone-400 mr-2 sm:mr-2.5 shrink-0">
-                      —
-                    </span>
-                    <span className="leading-relaxed font-sans">{str}</span>
-                  </div>
-                ))}
-              </div>
+              {!collapsedSections.strengths && (
+                <div className="space-y-2 animate-in fade-in duration-150">
+                  {result.strengths.map((str, idx) => (
+                    <div
+                      key={`str-${idx}`}
+                      className="flex items-start text-xs sm:text-sm text-stone-700 bg-stone-50/70 p-2.5 sm:p-3 rounded-lg border border-stone-200/60"
+                    >
+                      <span className="text-stone-400 mr-2 sm:mr-2.5 shrink-0">
+                        —
+                      </span>
+                      <span className="leading-relaxed font-sans">{str}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
 
         {/* Right Column: Critical Action Items & Section Audit */}
         <div className="space-y-4 sm:space-y-6">
-          {/* Critical Action Items */}
+          {/* Critical Action Items — Collapsible + Copy All */}
           {result.critical_improvements.length > 0 && (
             <div className="bg-white rounded-xl p-4 sm:p-6 border border-stone-200 shadow-xs">
-              <div className="pb-3 mb-3 sm:mb-3.5 border-b border-stone-100 flex items-center justify-between gap-2">
+              <div
+                className="pb-3 mb-3 sm:mb-3.5 border-b border-stone-100 flex items-center justify-between gap-2 cursor-pointer select-none"
+                onClick={() => toggleSection("critical")}
+              >
                 <div className="flex items-center space-x-2 min-w-0">
                   <AlertCircle className="w-4 h-4 text-rose-700 shrink-0" />
                   <h3 className="text-sm sm:text-base font-serif font-semibold text-stone-900 tracking-tight truncate">
                     Critical Action Items
                   </h3>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-600 bg-stone-100 px-2 py-0.5 rounded border border-stone-200 shrink-0">
-                  {result.critical_improvements.length} Required Fixes
-                </span>
+                <div className="flex items-center gap-2 shrink-0">
+                  {/* Copy All button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopyAll();
+                    }}
+                    className="no-print inline-flex items-center gap-1 text-[11px] font-medium text-stone-500 hover:text-stone-900 transition-colors py-0.5 px-1.5 rounded hover:bg-stone-100"
+                    title="Copy all action items"
+                  >
+                    {copiedAll ? (
+                      <>
+                        <CheckCheck className="w-3 h-3 text-emerald-700" />
+                        <span className="text-emerald-700">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3" />
+                        <span className="hidden sm:inline">Copy All</span>
+                      </>
+                    )}
+                  </button>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-600 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
+                    {result.critical_improvements.length} Required Fixes
+                  </span>
+                  {collapsedSections.critical ? (
+                    <ChevronDown className="w-3.5 h-3.5 text-stone-400" />
+                  ) : (
+                    <ChevronUp className="w-3.5 h-3.5 text-stone-400" />
+                  )}
+                </div>
               </div>
 
-              <div className="space-y-2">
-                {result.critical_improvements.map((item, idx) => (
-                  <div
-                    key={`crit-${idx}`}
-                    className="flex items-start text-xs sm:text-sm text-stone-800 bg-stone-50/70 p-2.5 sm:p-3 rounded-lg border border-stone-200/60"
-                  >
-                    <span className="text-[10px] font-bold text-stone-500 mr-2 sm:mr-2.5 shrink-0 mt-0.5">
-                      #{idx + 1}
-                    </span>
-                    <span className="leading-relaxed font-sans">{item}</span>
-                  </div>
-                ))}
-              </div>
+              {!collapsedSections.critical && (
+                <div className="space-y-2 animate-in fade-in duration-150">
+                  {result.critical_improvements.map((item, idx) => (
+                    <div
+                      key={`crit-${idx}`}
+                      className="flex items-start text-xs sm:text-sm text-stone-800 bg-stone-50/70 p-2.5 sm:p-3 rounded-lg border border-stone-200/60"
+                    >
+                      <span className="text-[10px] font-bold text-stone-500 mr-2 sm:mr-2.5 shrink-0 mt-0.5">
+                        #{idx + 1}
+                      </span>
+                      <span className="leading-relaxed font-sans">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

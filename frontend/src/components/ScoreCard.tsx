@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ScoreCardProps {
   score: number;
@@ -6,6 +6,27 @@ interface ScoreCardProps {
 
 export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
   const roundedScore = Math.round(score);
+  const [animatedScore, setAnimatedScore] = useState(0);
+
+  // Animate score from 0 → roundedScore with ease-out cubic
+  useEffect(() => {
+    let start: number | null = null;
+    let frameId: number;
+    const duration = 1200;
+
+    const animate = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setAnimatedScore(Math.round(eased * roundedScore));
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animate);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
+  }, [roundedScore]);
 
   const getTier = (s: number) => {
     if (s >= 75) {
@@ -50,10 +71,10 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
 
   const tier = getTier(roundedScore);
 
-  // SVG Circular Gauge calculation
+  // SVG Circular Gauge calculation — uses animatedScore for smooth fill
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (roundedScore / 100) * circumference;
+  const strokeDashoffset = circumference - (animatedScore / 100) * circumference;
 
   return (
     <div className="bg-white rounded-xl p-4 sm:p-6 border border-stone-200 shadow-xs flex flex-col items-center justify-between h-full">
@@ -87,13 +108,13 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             fill="transparent"
-            className="transition-all duration-700 ease-out"
+            className="transition-none"
           />
         </svg>
 
         <div className="absolute flex flex-col items-center justify-center text-center">
           <span className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight">
-            {roundedScore}
+            {animatedScore}
           </span>
           <span className="text-[10px] sm:text-[11px] font-sans text-stone-400 uppercase tracking-wider">
             out of 100
