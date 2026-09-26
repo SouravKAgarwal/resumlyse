@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Github, Heart } from "lucide-react";
 import { ResumlyseLogo } from "./Logo";
 
 export const Footer = () => {
@@ -52,6 +53,21 @@ export const Footer = () => {
 
           <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-stone-400 font-sans">
             <p>© {new Date().getFullYear()} resumlyse. All rights reserved.</p>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/SouravKAgarwal/resumlyse"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-stone-400 hover:text-stone-900 transition-colors"
+              >
+                <Github className="w-3.5 h-3.5" />
+                <span>GitHub</span>
+              </a>
+              <span className="text-stone-200">·</span>
+              <p className="inline-flex items-center gap-1">
+                Made with <Heart className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+              </p>
+            </div>
           </div>
         </div>
       </footer>
