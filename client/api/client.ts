@@ -53,16 +53,3 @@ export const exportPDF = async (payload: {
   );
   return response.data;
 };
-
-export const checkBackendHealth = async (): Promise<string> => {
-  try {
-    const response = await api.get("/", { timeout: 3000 });
-    if (response.status === 200) {
-      return "online";
-    } else {
-      return "offline";
-    }
-  } catch (error) {
-    return "offline";
-  }
-};

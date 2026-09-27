@@ -76,7 +76,7 @@ async def get_api_docs():
 
 
 @app.get(
-    "/api",
+    "/api/health",
     tags=["System"],
     summary="Get API Health and Status",
     operation_id="getApiHealth",

@@ -435,7 +435,7 @@ a.click();`,
   {
     id: "health",
     method: "GET",
-    path: "/api",
+    path: "/api/health",
     tag: "System",
     title: "Get API Health and Status",
     description:
