@@ -37,28 +37,28 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const getIcon = (type: ToastType) => {
     switch (type) {
       case 'success':
-        return <CheckCircle2 className="w-4 h-4 text-emerald-700" />;
+        return <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />;
       case 'error':
-        return <AlertCircle className="w-4 h-4 text-rose-700" />;
+        return <AlertCircle className="w-4 h-4 text-rose-700 dark:text-rose-400" />;
       case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-amber-700" />;
+        return <AlertTriangle className="w-4 h-4 text-amber-700 dark:text-amber-400" />;
       case 'info':
       default:
-        return <Info className="w-4 h-4 text-stone-600" />;
+        return <Info className="w-4 h-4 text-stone-600 dark:text-stone-300" />;
     }
   };
 
   const getBorderColor = (type: ToastType) => {
     switch (type) {
       case 'success':
-        return 'border-emerald-200';
+        return 'border-emerald-200 dark:border-emerald-800/60';
       case 'error':
-        return 'border-rose-200';
+        return 'border-rose-200 dark:border-rose-800/60';
       case 'warning':
-        return 'border-amber-200';
+        return 'border-amber-200 dark:border-amber-800/60';
       case 'info':
       default:
-        return 'border-stone-200';
+        return 'border-stone-200 dark:border-stone-800';
     }
   };
 
@@ -71,15 +71,15 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         {toasts.map((t) => (
           <div
             key={t.id}
-            className={`pointer-events-auto bg-white border ${getBorderColor(t.type)} rounded-lg shadow-lg p-3 flex items-start gap-2.5 animate-in slide-in-from-bottom-2 fade-in duration-200`}
+            className={`pointer-events-auto bg-white dark:bg-stone-900 border ${getBorderColor(t.type)} rounded-lg shadow-lg p-3 flex items-start gap-2.5 animate-in slide-in-from-bottom-2 fade-in duration-200`}
           >
             <div className="shrink-0 mt-0.5">{getIcon(t.type)}</div>
-            <p className="text-xs text-stone-700 font-sans leading-relaxed flex-1">
+            <p className="text-xs text-stone-700 dark:text-stone-300 font-sans leading-relaxed flex-1">
               {t.message}
             </p>
             <button
               onClick={() => removeToast(t.id)}
-              className="shrink-0 text-stone-400 hover:text-stone-700 p-0.5 transition-colors"
+              className="shrink-0 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-0.5 transition-colors cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>

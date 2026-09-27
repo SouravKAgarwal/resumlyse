@@ -40,16 +40,16 @@ export const ExportButton: React.FC<ExportButtonProps> = ({ filename, analysis }
     <button
       onClick={handleExport}
       disabled={isExporting}
-      className="no-print w-full sm:w-auto inline-flex items-center justify-center px-3.5 py-2 sm:py-1.5 bg-white border border-stone-300 hover:border-stone-400 hover:bg-stone-50 text-stone-800 text-xs font-medium rounded-lg transition-colors shadow-2xs disabled:opacity-60 disabled:cursor-not-allowed"
+      className="no-print w-full sm:w-auto inline-flex items-center justify-center px-3.5 py-2 sm:py-1.5 bg-white dark:bg-stone-800 border border-stone-300 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-600 hover:bg-stone-50 dark:hover:bg-stone-750 text-stone-800 dark:text-stone-200 text-xs font-medium rounded-lg transition-colors shadow-2xs disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
     >
       {isExporting ? (
         <>
-          <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin text-stone-700 shrink-0" />
+          <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin text-stone-700 dark:text-stone-300 shrink-0" />
           <span>Generating PDF...</span>
         </>
       ) : (
         <>
-          <Download className="w-3.5 h-3.5 mr-1.5 text-stone-500 shrink-0" />
+          <Download className="w-3.5 h-3.5 mr-1.5 text-stone-500 dark:text-stone-400 shrink-0" />
           <span>Export Report</span>
         </>
       )}

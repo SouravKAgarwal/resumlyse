@@ -83,14 +83,14 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const getIcon = () => {
     switch (dialog.type) {
       case 'error':
-        return <AlertCircle className="w-5 h-5 text-rose-700" />;
+        return <AlertCircle className="w-5 h-5 text-rose-700 dark:text-rose-400" />;
       case 'warning':
-        return <AlertTriangle className="w-5 h-5 text-amber-700" />;
+        return <AlertTriangle className="w-5 h-5 text-amber-700 dark:text-amber-400" />;
       case 'confirm':
-        return <AlertCircle className="w-5 h-5 text-stone-700" />;
+        return <AlertCircle className="w-5 h-5 text-stone-700 dark:text-stone-300" />;
       case 'info':
       default:
-        return <Info className="w-5 h-5 text-stone-700" />;
+        return <Info className="w-5 h-5 text-stone-700 dark:text-stone-300" />;
     }
   };
 
@@ -103,31 +103,31 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-stone-950/40 backdrop-blur-xs animate-in fade-in duration-150"
+            className="fixed inset-0 bg-stone-950/40 dark:bg-black/60 backdrop-blur-xs animate-in fade-in duration-150"
             onClick={closeDialog}
           />
 
           {/* Dialog Container */}
-          <div className="relative bg-white rounded-xl shadow-xl border border-stone-200 max-w-md w-full p-4 sm:p-6 animate-in zoom-in-95 duration-150 flex flex-col space-y-3.5 sm:space-y-4">
+          <div className="relative bg-white dark:bg-stone-900 rounded-xl shadow-xl border border-stone-200 dark:border-stone-800 max-w-md w-full p-4 sm:p-6 animate-in zoom-in-95 duration-150 flex flex-col space-y-3.5 sm:space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center space-x-3 min-w-0">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-stone-100 flex items-center justify-center shrink-0 border border-stone-200/80">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center shrink-0 border border-stone-200/80 dark:border-stone-700">
                   {getIcon()}
                 </div>
-                <h3 className="text-sm sm:text-base font-serif font-semibold text-stone-900 tracking-tight truncate">
+                <h3 className="text-sm sm:text-base font-serif font-semibold text-stone-900 dark:text-stone-100 tracking-tight truncate">
                   {dialog.title}
                 </h3>
               </div>
               <button
                 onClick={closeDialog}
-                className="text-stone-400 hover:text-stone-700 p-1.5 rounded-md transition-colors shrink-0"
+                className="text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-1.5 rounded-md transition-colors shrink-0 cursor-pointer"
                 title="Close dialog"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans whitespace-pre-line">
+            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-sans whitespace-pre-line">
               {dialog.message}
             </p>
 
@@ -139,7 +139,7 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                     dialog.onCancel?.();
                     closeDialog();
                   }}
-                  className="w-full sm:w-auto px-4 py-2 sm:py-1.5 text-xs font-medium text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200/80 rounded-lg transition-colors text-center justify-center"
+                  className="w-full sm:w-auto px-4 py-2 sm:py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 bg-stone-100 dark:bg-stone-800 hover:bg-stone-200/80 dark:hover:bg-stone-750 rounded-lg transition-colors text-center justify-center cursor-pointer"
                 >
                   {dialog.cancelText}
                 </button>
@@ -151,10 +151,10 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                   dialog.onConfirm?.();
                   closeDialog();
                 }}
-                className={`w-full sm:w-auto px-4 py-2 sm:py-1.5 text-xs font-medium text-white rounded-lg transition-colors shadow-2xs text-center justify-center ${
+                className={`w-full sm:w-auto px-4 py-2 sm:py-1.5 text-xs font-medium text-white rounded-lg transition-colors shadow-2xs text-center justify-center cursor-pointer ${
                   dialog.type === 'error' || dialog.confirmText.toLowerCase() === 'delete'
                     ? 'bg-rose-700 hover:bg-rose-800'
-                    : 'bg-stone-900 hover:bg-stone-800'
+                    : 'bg-stone-900 hover:bg-stone-800 dark:bg-stone-100 dark:hover:bg-white dark:text-stone-900'
                 }`}
               >
                 {dialog.confirmText}

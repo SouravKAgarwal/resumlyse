@@ -33,39 +33,39 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
       return {
         label: 'ATS Optimized',
         sublabel: 'Meets high ATS benchmark standards',
-        color: 'text-emerald-800',
-        bgColor: 'bg-emerald-50',
-        borderColor: 'border-emerald-200',
-        ringColor: '#2e7d32',
+        color: 'text-emerald-800 dark:text-emerald-300',
+        bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
+        borderColor: 'border-emerald-200 dark:border-emerald-800/60',
+        ringColor: '#16a34a',
       };
     }
     if (s >= 60) {
       return {
         label: 'Competitive',
         sublabel: 'Solid foundation, targeted tweaks advised',
-        color: 'text-stone-800',
-        bgColor: 'bg-stone-100',
-        borderColor: 'border-stone-200',
-        ringColor: '#44403c',
+        color: 'text-stone-800 dark:text-stone-200',
+        bgColor: 'bg-stone-100 dark:bg-stone-800',
+        borderColor: 'border-stone-200 dark:border-stone-700',
+        ringColor: '#78716c',
       };
     }
     if (s >= 45) {
       return {
         label: 'Needs Polish',
         sublabel: 'Key content and formatting gaps detected',
-        color: 'text-amber-800',
-        bgColor: 'bg-amber-50',
-        borderColor: 'border-amber-200',
-        ringColor: '#b45309',
+        color: 'text-amber-800 dark:text-amber-300',
+        bgColor: 'bg-amber-50 dark:bg-amber-950/40',
+        borderColor: 'border-amber-200 dark:border-amber-800/60',
+        ringColor: '#d97706',
       };
     }
     return {
       label: 'Critical Gaps',
       sublabel: 'Substantial structural revisions required',
-      color: 'text-rose-800',
-      bgColor: 'bg-rose-50',
-      borderColor: 'border-rose-200',
-      ringColor: '#b91c1c',
+      color: 'text-rose-800 dark:text-rose-300',
+      bgColor: 'bg-rose-50 dark:bg-rose-950/40',
+      borderColor: 'border-rose-200 dark:border-rose-800/60',
+      ringColor: '#e11d48',
     };
   };
 
@@ -77,9 +77,9 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
   const strokeDashoffset = circumference - (animatedScore / 100) * circumference;
 
   return (
-    <div className="bg-white rounded-xl p-4 sm:p-6 border border-stone-200 shadow-xs flex flex-col items-center justify-between h-full">
-      <div className="w-full flex items-center justify-between pb-2.5 sm:pb-3 border-b border-stone-100 gap-2">
-        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-400 font-sans">
+    <div className="bg-white dark:bg-stone-900 rounded-xl p-4 sm:p-6 border border-stone-200 dark:border-stone-800 shadow-xs flex flex-col items-center justify-between h-full">
+      <div className="w-full flex items-center justify-between pb-2.5 sm:pb-3 border-b border-stone-100 dark:border-stone-800 gap-2">
+        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 font-sans">
           Overall ATS Score
         </span>
         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${tier.bgColor} ${tier.color} border ${tier.borderColor} shrink-0`}>
@@ -93,7 +93,7 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
             cx="70"
             cy="70"
             r={radius}
-            className="text-stone-100"
+            className="text-stone-100 dark:text-stone-800"
             strokeWidth="9"
             stroke="currentColor"
             fill="transparent"
@@ -113,17 +113,17 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ score }) => {
         </svg>
 
         <div className="absolute flex flex-col items-center justify-center text-center">
-          <span className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight">
+          <span className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 dark:text-stone-100 tracking-tight">
             {animatedScore}
           </span>
-          <span className="text-[10px] sm:text-[11px] font-sans text-stone-400 uppercase tracking-wider">
+          <span className="text-[10px] sm:text-[11px] font-sans text-stone-400 dark:text-stone-500 uppercase tracking-wider">
             out of 100
           </span>
         </div>
       </div>
 
-      <div className="w-full text-center pt-2.5 sm:pt-3 border-t border-stone-100">
-        <p className="text-xs text-stone-500 font-sans leading-relaxed">
+      <div className="w-full text-center pt-2.5 sm:pt-3 border-t border-stone-100 dark:border-stone-800">
+        <p className="text-xs text-stone-500 dark:text-stone-400 font-sans leading-relaxed">
           {tier.sublabel}
         </p>
       </div>

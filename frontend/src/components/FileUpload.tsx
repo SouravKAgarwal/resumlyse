@@ -196,18 +196,18 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           onClick={() => fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-xl p-6 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
             isDragging
-              ? "border-stone-800 bg-stone-100/70"
-              : "border-stone-300/80 bg-white hover:border-stone-400 hover:bg-stone-50/50"
+              ? "border-stone-800 bg-stone-100/70 dark:border-stone-400 dark:bg-stone-800/80"
+              : "border-stone-300/80 bg-white hover:border-stone-400 hover:bg-stone-50/50 dark:border-stone-700 dark:bg-stone-900/60 dark:hover:border-stone-600 dark:hover:bg-stone-850/60"
           }`}
         >
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center mb-3 text-stone-700">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center mb-3 text-stone-700 dark:text-stone-300">
             <Upload className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
 
-          <h3 className="text-sm sm:text-base font-serif font-medium text-stone-900 tracking-tight">
+          <h3 className="text-sm sm:text-base font-serif font-medium text-stone-900 dark:text-stone-100 tracking-tight">
             Select a document or drag it here
           </h3>
-          <p className="text-xs text-stone-500 mt-1 font-sans max-w-xs sm:max-w-md">
+          <p className="text-xs text-stone-500 dark:text-stone-400 mt-1 font-sans max-w-xs sm:max-w-md">
             Drop your resume to evaluate ATS readability and structural metrics
           </p>
 
@@ -215,20 +215,20 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             {["PDF", "DOCX", "TXT", "RTF"].map((fmt) => (
               <span
                 key={fmt}
-                className="px-2 py-0.5 rounded text-[10px] font-semibold bg-stone-100 border border-stone-200 text-stone-600 uppercase"
+                className="px-2 py-0.5 rounded text-[10px] font-semibold bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 uppercase"
               >
                 {fmt}
               </span>
             ))}
-            <span className="text-[11px] text-stone-400 ml-0.5 sm:ml-1">
+            <span className="text-[11px] text-stone-400 dark:text-stone-500 ml-0.5 sm:ml-1">
               Up to 10MB
             </span>
           </div>
         </div>
       ) : (
-        <div className="bg-white border border-stone-200 rounded-xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+        <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center space-x-3 min-w-0 flex-1">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-800 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-800 dark:text-stone-200 shrink-0">
               {/* File type icon - using proper SVGs */}
               {getFileIcon(selectedFile.name)}
             </div>
@@ -236,26 +236,26 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             <div className="min-w-0 flex-1">
               <div className="flex items-center space-x-2">
                 <p
-                  className="text-xs sm:text-sm font-medium text-stone-900 truncate"
+                  className="text-xs sm:text-sm font-medium text-stone-900 dark:text-stone-100 truncate"
                   title={selectedFile.name}
                 >
                   {selectedFile.name}
                 </p>
-                <span className="inline-flex items-center text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-200 shrink-0">
+                <span className="inline-flex items-center text-[10px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 sm:px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800/60 shrink-0">
                   <Check className="w-3 h-3 mr-0.5 stroke-[2.5]" /> Ready
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-stone-400 mt-0.5">
+              <p className="text-[11px] sm:text-xs text-stone-400 dark:text-stone-500 mt-0.5">
                 {getFileExtension(selectedFile.name)} •{" "}
                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
           </div>
 
-          <div className="flex items-center justify-end space-x-1.5 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
+          <div className="flex items-center justify-end space-x-1.5 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100 dark:border-stone-800">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-colors"
+              className="px-3 py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors cursor-pointer"
             >
               Replace
             </button>
@@ -264,7 +264,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                 e.stopPropagation();
                 onClear();
               }}
-              className="p-1.5 text-stone-400 hover:text-stone-800 hover:bg-stone-100 rounded-lg transition-colors"
+              className="p-1.5 text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-colors cursor-pointer"
               title="Remove document"
             >
               <X className="w-4 h-4" />
