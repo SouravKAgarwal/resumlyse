@@ -11,12 +11,8 @@ const checkBackendHealth = async (): Promise<"healthy" | "offline"> => {
       signal: AbortSignal.timeout(3000),
     });
 
-    if (response.ok) {
-      const res = await response.json();
-      return res.status === "healthy" ? "healthy" : "offline";
-    }
-
-    return "offline";
+    const res = await response.json();
+    return res.status === "healthy" ? "healthy" : "offline";
   } catch {
     return "offline";
   }
