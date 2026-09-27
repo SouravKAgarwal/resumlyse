@@ -4,7 +4,7 @@ import shutil
 
 from analyzers.openai_analyzer import OpenAIAnalyzer
 from config import settings
-from fastapi import UploadFile
+from fastapi import HTTPException, UploadFile
 from parsers.router import get_parser
 from schemas.requests import AnalyzeResponse
 
@@ -29,6 +29,12 @@ class AnalysisService:
             
             logger.info(f"Document parsed successfully. Extracted {len(parsed_resume.text)} characters.")
             
+            if not parsed_resume.text or not parsed_resume.text.strip():
+                raise HTTPException(
+                    status_code=400,
+                    detail="No readable text found in document. Please upload a standard text-based PDF, DOCX, or TXT file rather than an image-only scanned document.",
+                )
+
             logger.info("Sending parsed data for evaluation...")
             analysis_result = self.analyzer.analyze(parsed_resume.text, job_description)
             logger.info(f"Evaluation complete. Overall score computed: {analysis_result.overall_score}")
@@ -39,9 +45,14 @@ class AnalysisService:
                 filename=file.filename,
                 analysis=analysis_result
             )
+        except HTTPException:
+            raise
         except Exception as e:
             logger.error(f"Error occurred during analysis of {file.filename}: {str(e)}", exc_info=True)
-            raise
+            raise HTTPException(
+                status_code=500,
+                detail=f"Analysis failed: {str(e)}",
+            )
         finally:
             if os.path.exists(file_path):
                 logger.debug(f"Cleaning up temporary file: {file_path}")
