@@ -2,29 +2,10 @@ import { Github, Heart } from "lucide-react";
 import { ResumlyseLogo } from "./Logo";
 import Link from "next/link";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000";
-
-const checkBackendHealth = async (): Promise<"healthy" | "offline"> => {
-  try {
-    const response = await fetch(`${BACKEND_URL}/api/health`, {
-      cache: "no-store",
-      signal: AbortSignal.timeout(3000),
-    });
-
-    const res = await response.json();
-    return res.status === "healthy" ? "healthy" : "offline";
-  } catch {
-    return "offline";
-  }
-};
-
 export const Footer = async () => {
-  const healthStatus = await checkBackendHealth();
-
   return (
     <>
       <footer className="bg-white dark:bg-stone-900 border-t border-stone-200 dark:border-stone-800 mt-auto">
-        {/* Main Footer Content */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b border-stone-100 dark:border-stone-800">
             <div className="sm:col-span-2 space-y-3.5">
@@ -93,27 +74,6 @@ export const Footer = async () => {
               <p className="inline-flex items-center gap-1">
                 Made with{" "}
                 <Heart className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-              </p>
-              <span className="text-stone-200 dark:text-stone-700">·</span>
-              <p
-                className={`inline-flex items-center gap-1 ${
-                  healthStatus === "healthy" ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {healthStatus === "healthy" && (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    <span className="text-stone-400">
-                      All systems are operational
-                    </span>
-                  </>
-                )}
-                {healthStatus === "offline" && (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                    <span className="text-stone-400">System down</span>
-                  </>
-                )}
               </p>
             </div>
           </div>
