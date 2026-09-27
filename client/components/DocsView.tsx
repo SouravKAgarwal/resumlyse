@@ -459,12 +459,12 @@ a.click();`,
       },
     ],
     snippets: {
-      curl: `curl -X GET "http://localhost:8000/api"`,
+      curl: `curl -X GET "http://localhost:8000/api/health"`,
       python: `import requests
 
-response = requests.get("http://localhost:8000/api")
+response = requests.get("http://localhost:8000/api/health")
 print(response.json())`,
-      javascript: `const res = await fetch("http://localhost:8000/api");
+      javascript: `const res = await fetch("http://localhost:8000/api/health");
 const data = await res.json();
 console.log(data);`,
     },
@@ -1224,4 +1224,4 @@ export const DocsView: React.FC = () => {
       </div>
     </div>
   );
-}
+};
