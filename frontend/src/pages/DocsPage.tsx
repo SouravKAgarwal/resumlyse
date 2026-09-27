@@ -735,7 +735,7 @@ export const DocsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfa] dark:bg-[#121212] text-stone-900 dark:text-stone-100 font-sans selection:bg-stone-200 dark:selection:bg-stone-800 transition-colors duration-150">
+    <div className="min-h-screen bg-[#fbfbfa] dark:bg-[#121212] text-stone-900 dark:text-stone-100 font-sans selection:bg-stone-200 dark:selection:bg-stone-800">
       {/* ── Main Layout Container ── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         {/* ── Embedded Page Hero / Header ── */}

@@ -27,7 +27,7 @@ function AppLayout() {
   useKeyboardShortcuts();
 
   return (
-    <div className="min-h-screen bg-[#fbfbfa] dark:bg-[#121212] text-stone-900 dark:text-stone-100 flex flex-col font-sans selection:bg-stone-200 dark:selection:bg-stone-800 transition-colors duration-150">
+    <div className="min-h-screen bg-[#fbfbfa] dark:bg-[#121212] text-stone-900 dark:text-stone-100 flex flex-col font-sans selection:bg-stone-200 dark:selection:bg-stone-800">
       {/* Top Bar with logo and history trigger */}
       <Navbar />
 

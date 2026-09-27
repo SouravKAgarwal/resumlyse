@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const isDocsPage = location.pathname === "/docs";
 
   return (
-    <header className="bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm border-b border-stone-200/90 dark:border-stone-800 sticky top-0 z-30 transition-colors duration-150">
+    <header className="bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm border-b border-stone-200/90 dark:border-stone-800 sticky top-0 z-30">
       <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
         {/* Brand Link */}
         <Link
@@ -29,16 +29,28 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center space-x-1.5 sm:space-x-2.5">
           {/* Theme Toggle Button */}
           <button
-            onClick={toggleTheme}
+            data-theme-toggle
+            onClick={(e) => toggleTheme(e)}
             aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
             title={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
-            className="no-print p-2 rounded-lg text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent transition-colors cursor-pointer"
+            className="no-print relative p-2 rounded-lg text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent transition-colors cursor-pointer overflow-hidden group"
           >
-            {resolvedTheme === "dark" ? (
-              <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
-            ) : (
-              <Moon className="w-4 h-4 text-stone-600 transition-transform hover:-rotate-12" />
-            )}
+            <div className="relative w-4 h-4 flex items-center justify-center">
+              <Sun
+                className={`w-4 h-4 text-amber-400 transition-all duration-300 transform ${
+                  resolvedTheme === "dark"
+                    ? "rotate-0 scale-100 opacity-100"
+                    : "-rotate-90 scale-0 opacity-0 pointer-events-none"
+                }`}
+              />
+              <Moon
+                className={`w-4 h-4 text-stone-600 dark:text-stone-400 absolute transition-all duration-300 transform ${
+                  resolvedTheme === "dark"
+                    ? "rotate-90 scale-0 opacity-0 pointer-events-none"
+                    : "rotate-0 scale-100 opacity-100"
+                }`}
+              />
+            </div>
           </button>
 
           <Link
