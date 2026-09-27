@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { AnalysisResult } from '../types';
+import axios from "axios";
+import { AnalysisResult } from "../types";
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
 });
 
 // Backend returns { id, filename, analysis: AnalysisResult }
@@ -19,16 +19,16 @@ interface AnalyzeApiResponse {
  */
 export const analyzeResume = async (
   file: File,
-  jobDescription?: string
+  jobDescription?: string,
 ): Promise<{ id: number; filename: string; analysis: AnalysisResult }> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
   if (jobDescription) {
-    formData.append('job_description', jobDescription);
+    formData.append("job_description", jobDescription);
   }
 
   // Stateless evaluation from backend
-  const response = await api.post<AnalyzeApiResponse>('/analyze', formData);
+  const response = await api.post<AnalyzeApiResponse>("/analyze", formData);
 
   return {
     id: response.data.id,
@@ -40,15 +40,29 @@ export const analyzeResume = async (
 /**
  * Generate a PDF report directly from the provided data via stateless backend generator.
  */
-export const exportPDF = async (
-  payload: { filename: string; analysis: AnalysisResult }
-): Promise<Blob> => {
+export const exportPDF = async (payload: {
+  filename: string;
+  analysis: AnalysisResult;
+}): Promise<Blob> => {
   const { filename, analysis } = payload;
 
   const response = await api.post(
-    '/export',
+    "/export",
     { filename, analysis },
-    { responseType: 'blob' }
+    { responseType: "blob" },
   );
   return response.data;
+};
+
+export const checkBackendHealth = async (): Promise<string> => {
+  try {
+    const response = await api.get("/", { timeout: 3000 });
+    if (response.status === 200) {
+      return "online";
+    } else {
+      return "offline";
+    }
+  } catch (error) {
+    return "offline";
+  }
 };

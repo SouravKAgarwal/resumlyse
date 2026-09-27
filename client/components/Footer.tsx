@@ -1,23 +1,10 @@
 import { Github, Heart } from "lucide-react";
 import { ResumlyseLogo } from "./Logo";
 import Link from "next/link";
-
-const BACKEND_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000";
+import { checkBackendHealth } from "@/api/client";
 
 export const Footer = async () => {
-  let healthStatus = "offline";
-  try {
-    const response = await fetch(`${BACKEND_URL}/api`, {
-      cache: "no-store",
-      signal: AbortSignal.timeout(3000),
-    });
-    if (response.ok) {
-      const res = await response.json();
-      healthStatus = res.status;
-    }
-  } catch {
-    healthStatus = "offline";
-  }
+  const healthStatus = await checkBackendHealth();
 
   return (
     <>

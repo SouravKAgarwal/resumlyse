@@ -110,7 +110,7 @@ export const KeywordMatch: React.FC<KeywordMatchProps> = ({ keywords }) => {
               <th className="px-3 sm:px-3.5 py-2.5 text-left w-1/3 whitespace-nowrap">
                 Keyword
               </th>
-              <th className="px-3 sm:px-3.5 py-2.5 text-left min-w-[160px]">
+              <th className="px-3 sm:px-3.5 py-2.5 text-left min-w-40">
                 Detected Context
               </th>
             </tr>
@@ -149,7 +149,7 @@ export const KeywordMatch: React.FC<KeywordMatchProps> = ({ keywords }) => {
                   <td className="px-3 sm:px-3.5 py-2 text-stone-600 dark:text-stone-300 font-sans">
                     {item.context ? (
                       <span
-                        className="font-serif italic text-stone-700 dark:text-stone-300 block truncate max-w-[160px] sm:max-w-xs md:max-w-md"
+                        className="font-serif italic text-stone-700 dark:text-stone-300 block truncate max-w-40 sm:max-w-xs md:max-w-md"
                         title={item.context}
                       >
                         &ldquo;{item.context}&rdquo;
