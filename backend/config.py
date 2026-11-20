@@ -12,7 +12,7 @@ load_dotenv(_backend_dir / ".env")
 
 class Settings(BaseModel):
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "nvidia/nemotron-3-super-120b-a12b")
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "")
     OPENAI_API_BASE: str = os.getenv(
         "OPENAI_API_BASE", "https://integrate.api.nvidia.com/v1"
     )
